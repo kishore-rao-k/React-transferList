@@ -51,19 +51,17 @@ function App() {
     );
   }
 
-  function handleMoveLeft() {
-    const newItems = selectedItems.filter(item => !leftItems.includes(item));
-    setLeftItems((prev) => [...prev, ...newItems]); 
-    setRightItems((prev) => prev.filter((item) => !selectedItems.includes(item))); 
-    setSelectedItems([]); 
-  }
-
   function handleMoveRight() {
-    const newItems = selectedItems.filter(item => !rightItems.includes(item));
-    setRightItems((prev) => [...prev, ...newItems]);
+    setRightItems((prev) => [...prev, ...selectedItems.filter(item => leftItems.includes(item))]);
     setLeftItems((prev) => prev.filter((item) => !selectedItems.includes(item)));
-    setSelectedItems([]);
-  }
+    setSelectedItems((prev) => prev.filter(item => rightItems.includes(item)));
+}
+
+function handleMoveLeft() {
+  setLeftItems((prev) => [...prev, ...selectedItems.filter(item => rightItems.includes(item))]);
+  setRightItems((prev) => prev.filter((item) => !selectedItems.includes(item)));
+  setSelectedItems((prev) => prev.filter(item => leftItems.includes(item)));
+}
 
 
   function handleMoveLeftAll() {
